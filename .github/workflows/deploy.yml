@@ -1,0 +1,47 @@
+name: Deploy para GitHub Pages
+
+# 1. Quando o Workflow deve ser acionado
+on:
+  push:
+    branches:
+      - main # Mude para 'master' se for o nome do seu branch principal
+
+# Permissões necessárias para que a Action publique no Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use uma versão estável
+          cache: 'npm'
+      
+      # 🚀 Instalar dependências e fazer o build
+      - name: Instalar Dependências e Buildar
+        # O 'npm run build' cria a pasta 'build' com o código estático
+        run: |
+          npm ci
+          npm run build
+
+      # 📦 Configurar o GitHub Pages
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # 📤 Publicar o conteúdo da pasta 'build'
+      - name: Publicar para GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './build' # O caminho da pasta que contém seus arquivos estáticos
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
