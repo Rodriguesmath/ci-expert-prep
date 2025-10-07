@@ -22,12 +22,12 @@ jobs:
       - name: 🛠️ Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use uma versão estável
+          node-version: '20' 
           cache: 'npm'
       
       # 🚀 Instalar dependências e fazer o build
       - name: Instalar Dependências e Buildar
-        # O 'npm run build' cria a pasta 'build' com o código estático
+        # O 'npm run build' (Vite) cria a pasta 'dist'
         run: |
           npm ci
           npm run build
@@ -36,11 +36,11 @@ jobs:
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
 
-      # 📤 Publicar o conteúdo da pasta 'build'
+      # 📤 Publicar o conteúdo da pasta 'dist'
       - name: Publicar para GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './build' # O caminho da pasta que contém seus arquivos estáticos
+          path: './dist' # CORREÇÃO: Usando 'dist' ao invés de 'build' para projetos Vite.
 
       - name: Deploy
         id: deployment
