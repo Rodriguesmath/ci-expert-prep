@@ -29,7 +29,7 @@ jobs:
       - name: Instalar Dependências e Buildar
         # O 'npm run build' (Vite) cria a pasta 'dist'
         run: |
-          npm install
+          npm ci
           npm run build
 
       # 📦 Configurar o GitHub Pages
